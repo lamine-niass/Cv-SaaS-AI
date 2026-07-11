@@ -253,3 +253,4 @@ Voir le PDF
 
 ))
 }
+export default Admin;
