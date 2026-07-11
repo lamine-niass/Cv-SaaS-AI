@@ -257,5 +257,3 @@ Voir le PDF
 </div>
 );
 }
-
-export default Admin;
