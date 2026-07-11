@@ -1,6 +1,5 @@
 import { Resend } from "resend";
-import { supabase } from "@/lib/supabase";
-
+import { supabase } from '../../lib/supabase';
 
 const resend = new Resend(
   process.env.RESEND_API_KEY
