@@ -1,16 +1,24 @@
+import { parse } from "cookie";
 import { supabase } from "@/lib/supabase";
 
 
 export default async function handler(req,res){
 
 
-  if(req.method !== "GET"){
+const cookies =
+parse(req.headers.cookie || "");
 
-    return res.status(405).json({
-      error:"Method not allowed"
-    });
 
-  }
+
+if(
+cookies.admin_session !== "authenticated"
+){
+
+return res.status(401).json({
+error:"Non autorisé"
+});
+
+}
 
 
 
