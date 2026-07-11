@@ -122,7 +122,67 @@ export default function Admin(){
               Status :
               {order.status}
             </p>
+            <button
+className="btn btn-primary"
+onClick={async()=>{
 
+ await fetch("/api/update-order",{
+
+ method:"POST",
+
+ headers:{
+ "Content-Type":"application/json"
+ },
+
+ body:JSON.stringify({
+
+ id:order.id,
+
+ status:"payement_validé"
+
+ })
+
+ });
+
+ loadOrders();
+
+}}
+>
+✅ Valider paiement
+</button>
+
+
+<button
+className="btn"
+style={{
+marginLeft:10
+}}
+onClick={async()=>{
+
+ await fetch("/api/update-order",{
+
+ method:"POST",
+
+ headers:{
+ "Content-Type":"application/json"
+ },
+
+ body:JSON.stringify({
+
+ id:order.id,
+
+ status:"refusé"
+
+ })
+
+ });
+
+ loadOrders();
+
+}}
+>
+❌ Refuser
+</button>
 
           </div>
 
