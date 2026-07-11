@@ -84,67 +84,73 @@ export default function Admin(){
         📋 Commandes CV
       </h1>
 
+{
+orders.map((order)=>(
 
-      {
-        orders.map((order)=>(
+<div
+key={order.id}
+className="card"
+style={{
+padding:20,
+marginBottom:15
+}}
+>
 
-          <div
-          key={order.id}
-          className="card"
-          style={{
-            padding:20,
-            marginBottom:15
-          }}
-          >
-
-            <h3>
-              {order.name}
-            </h3>
-
-
-            <p>
-              📧 {order.email}
-            </p>
-
-            <p>
-              💳 Transaction :
-              {order.transaction_number}
-            </p>
+<h3>
+{order.name}
+</h3>
 
 
-            <p>
-              Offre :
-              {order.offer_label}
-            </p>
+<p>
+📧 {order.email}
+</p>
 
 
-            <p>
-              Status :
-              {order.status}
-            </p>
-            <button
+<p>
+💳 Transaction :
+{order.transaction_number}
+</p>
+
+
+<p>
+📦 Offre :
+{order.offer_label}
+</p>
+
+
+<p>
+📌 Status :
+{order.status}
+</p>
+
+
+
+<button
 className="btn btn-primary"
 onClick={async()=>{
 
- await fetch("/api/update-order",{
 
- method:"POST",
+await fetch("/api/update-order",{
 
- headers:{
- "Content-Type":"application/json"
- },
+method:"POST",
 
- body:JSON.stringify({
+headers:{
+"Content-Type":"application/json"
+},
 
- id:order.id,
+body:JSON.stringify({
 
- status:"payement_validé"
+id:order.id,
 
- })
+status:"paiement_validé"
 
- });
+})
 
- loadOrders();
+});
+
+
+loadOrders();
+
 
 }}
 >
@@ -152,46 +158,98 @@ onClick={async()=>{
 </button>
 
 
+
 <button
 className="btn"
 style={{
 marginLeft:10
 }}
+
 onClick={async()=>{
 
- await fetch("/api/update-order",{
 
- method:"POST",
+await fetch("/api/create-pdf",{
 
- headers:{
- "Content-Type":"application/json"
- },
+method:"POST",
 
- body:JSON.stringify({
+headers:{
+"Content-Type":"application/json"
+},
 
- id:order.id,
+body:JSON.stringify({
 
- status:"refusé"
+id:order.id
 
- })
+})
 
- });
+});
 
- loadOrders();
+
+loadOrders();
+
 
 }}
 >
-❌ Refuser
+📄 Générer PDF
 </button>
 
-          </div>
-
-        ))
-      }
 
 
-    </div>
 
-  );
+<button
+className="btn"
+style={{
+marginLeft:10
+}}
 
-            }
+onClick={async()=>{
+
+
+await fetch("/api/send-email",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+id:order.id
+
+})
+
+});
+
+
+loadOrders();
+
+
+}}
+>
+📧 Envoyer CV
+</button>
+
+
+
+{
+order.pdf_url &&
+
+<p>
+
+<a
+href={order.pdf_url}
+target="_blank"
+>
+Voir le PDF
+</a>
+
+</p>
+
+}
+
+
+</div>
+
+))
+}
