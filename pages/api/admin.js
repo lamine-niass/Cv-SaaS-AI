@@ -1,13 +1,20 @@
+import { serialize } from "cookie";
+
+
 export default async function handler(req,res){
 
+
   if(req.method !== "POST"){
+
     return res.status(405).json({
       error:"Method not allowed"
     });
+
   }
 
 
   const { password } = req.body;
+
 
 
   if(password !== process.env.ADMIN_PASSWORD){
@@ -19,8 +26,27 @@ export default async function handler(req,res){
   }
 
 
+
+  res.setHeader(
+    "Set-Cookie",
+    serialize(
+      "admin_session",
+      "authenticated",
+      {
+        httpOnly:true,
+        secure:process.env.NODE_ENV === "production",
+        sameSite:"strict",
+        maxAge:60*60*24,
+        path:"/"
+      }
+    )
+  );
+
+
+
   return res.status(200).json({
     success:true
   });
+
 
 }
